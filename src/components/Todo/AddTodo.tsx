@@ -54,7 +54,7 @@ export const AddTodo: React.FC = () => {
         id: uuidv4(),
         title: title.trim(),
         completed: false,
-        createdAt: new Date()
+        createdAt: new Date().toISOString()
       });
       setTitle('');
     }
