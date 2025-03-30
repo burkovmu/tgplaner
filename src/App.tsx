@@ -1,25 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { AppProvider } from './context/AppContext';
+import TaskCalendar from './components/Calendar/TaskCalendar';
+import WebApp from '@twa-dev/sdk';
 
 function App() {
+  const [error, setError] = useState<string | null>(null);
+  const [initStatus, setInitStatus] = useState('Инициализация...');
+
+  useEffect(() => {
+    try {
+      // Проверяем доступность объекта window.Telegram
+      if (window.Telegram?.WebApp) {
+        setInitStatus('Telegram.WebApp найден');
+        
+        // Инициализируем WebApp
+        WebApp.ready();
+        setInitStatus('WebApp готов');
+        
+        // Устанавливаем цвет фона
+        WebApp.setBackgroundColor('#ffffff');
+        
+        // Расширяем приложение на весь экран
+        WebApp.expand();
+      } else {
+        setError('Telegram.WebApp не найден. Откройте приложение через Telegram.');
+      }
+    } catch (err) {
+      setError(`Ошибка инициализации: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }, []);
+
+  if (error) {
+    return (
+      <div className="App error-container">
+        <div className="error-message">
+          <h2>Ошибка</h2>
+          <p>{error}</p>
+          <p>Статус: {initStatus}</p>
+          <p>User Agent: {navigator.userAgent}</p>
+          <p>Platform: {navigator.platform}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppProvider>
+      <div className="App">
+        <header className="App-header">
+          <h1>TG Planer</h1>
+          <small>{initStatus}</small>
+        </header>
+        <main>
+          <TaskCalendar />
+        </main>
+      </div>
+    </AppProvider>
   );
 }
 

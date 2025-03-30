@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -14,14 +16,25 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #007AFF;
+  padding: 20px;
   color: white;
+  margin-bottom: 20px;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.App-header small {
+  display: block;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+
+main {
+  padding: 20px;
 }
 
 .App-link {
@@ -35,4 +48,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.error-message {
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  background-color: #fff3e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: left;
+  max-width: 600px;
+}
+
+.error-message h2 {
+  color: #e65100;
+  margin-top: 0;
+}
+
+.error-message p {
+  margin: 10px 0;
+  color: #333;
+  font-size: 14px;
 }
