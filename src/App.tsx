@@ -1,63 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React from 'react';
+import styled from 'styled-components';
 import { AppProvider } from './context/AppContext';
-import TaskCalendar from './components/Calendar/TaskCalendar';
-import WebApp from '@twa-dev/sdk';
+import { AddTodo } from './components/Todo/AddTodo';
+import { TodoList } from './components/Todo/TodoList';
 
-function App() {
-  const [error, setError] = useState<string | null>(null);
-  const [initStatus, setInitStatus] = useState('Инициализация...');
+const AppContainer = styled.div`
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f5f5f5;
+`;
 
-  useEffect(() => {
-    try {
-      // Проверяем доступность объекта window.Telegram
-      if (window.Telegram?.WebApp) {
-        setInitStatus('Telegram.WebApp найден');
-        
-        // Инициализируем WebApp
-        WebApp.ready();
-        setInitStatus('WebApp готов');
-        
-        // Устанавливаем цвет фона
-        WebApp.setBackgroundColor('#ffffff');
-        
-        // Расширяем приложение на весь экран
-        WebApp.expand();
-      } else {
-        setError('Telegram.WebApp не найден. Откройте приложение через Telegram.');
-      }
-    } catch (err) {
-      setError(`Ошибка инициализации: ${err instanceof Error ? err.message : String(err)}`);
-    }
-  }, []);
+const Title = styled.h1`
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+`;
 
-  if (error) {
-    return (
-      <div className="App error-container">
-        <div className="error-message">
-          <h2>Ошибка</h2>
-          <p>{error}</p>
-          <p>Статус: {initStatus}</p>
-          <p>User Agent: {navigator.userAgent}</p>
-          <p>Platform: {navigator.platform}</p>
-        </div>
-      </div>
-    );
-  }
-
+const App: React.FC = () => {
   return (
     <AppProvider>
-      <div className="App">
-        <header className="App-header">
-          <h1>TG Planer</h1>
-          <small>{initStatus}</small>
-        </header>
-        <main>
-          <TaskCalendar />
-        </main>
-      </div>
+      <AppContainer>
+        <Title>Список задач</Title>
+        <AddTodo />
+        <TodoList />
+      </AppContainer>
     </AppProvider>
   );
-}
+};
 
 export default App;

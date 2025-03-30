@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Task, AppContextType } from '../types';
+import { Task } from '../types';
+
+interface AppContextType {
+  tasks: Task[];
+  addTask: (task: Task) => void;
+  removeTask: (id: string) => void;
+  toggleTask: (id: string) => void;
+}
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
