@@ -55,12 +55,17 @@ try {
     document.body.removeChild(initMessage);
   }, 2000);
 
-} catch (error) {
+} catch (error: unknown) {
   // В случае ошибки показываем её
   console.error('Ошибка инициализации:', error);
   initMessage.style.backgroundColor = '#fff3e0';
   initMessage.style.color = '#e65100';
-  initMessage.textContent = `Ошибка: ${error.message}\n\nUser Agent: ${navigator.userAgent}`;
+  
+  const errorMessage = error instanceof Error 
+    ? error.message 
+    : 'Неизвестная ошибка';
+    
+  initMessage.textContent = `Ошибка: ${errorMessage}\n\nUser Agent: ${navigator.userAgent}`;
 }
 
 // If you want to start measuring performance in your app, pass a function
